@@ -47,7 +47,7 @@
   </url>
   
   <url>
-    <loc>https://itgeqian.github.io/personal/love/index.html</loc>
+    <loc>https://itgeqian.github.io/site/census/index.html</loc>
     
     <lastmod>2025-11-26</lastmod>
     
@@ -56,7 +56,7 @@
   </url>
   
   <url>
-    <loc>https://itgeqian.github.io/site/census/index.html</loc>
+    <loc>https://itgeqian.github.io/personal/love/index.html</loc>
     
     <lastmod>2025-11-26</lastmod>
     
@@ -155,7 +155,7 @@
   </url>
   
   <url>
-    <loc>https://itgeqian.github.io/posts/1.html</loc>
+    <loc>https://itgeqian.github.io/posts/4.html</loc>
     
     <lastmod>2025-05-27</lastmod>
     
@@ -205,6 +205,13 @@
   </url>
   
   <url>
+    <loc>https://itgeqian.github.io/tags/UML%E5%BB%BA%E6%A8%A1/</loc>
+    <lastmod>2025-11-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://itgeqian.github.io/tags/%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2/</loc>
     <lastmod>2025-11-26</lastmod>
     <changefreq>weekly</changefreq>
@@ -213,13 +220,6 @@
   
   <url>
     <loc>https://itgeqian.github.io/tags/GQ-Video/</loc>
-    <lastmod>2025-11-26</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://itgeqian.github.io/tags/UML%E5%BB%BA%E6%A8%A1/</loc>
     <lastmod>2025-11-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
