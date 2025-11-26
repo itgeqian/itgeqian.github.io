@@ -47,15 +47,6 @@
   </url>
   
   <url>
-    <loc>https://itgeqian.github.io/site/census/index.html</loc>
-    
-    <lastmod>2025-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://itgeqian.github.io/personal/love/index.html</loc>
     
     <lastmod>2025-11-26</lastmod>
@@ -65,7 +56,7 @@
   </url>
   
   <url>
-    <loc>https://itgeqian.github.io/personal/about/index.html</loc>
+    <loc>https://itgeqian.github.io/site/census/index.html</loc>
     
     <lastmod>2025-11-26</lastmod>
     
@@ -83,6 +74,15 @@
   </url>
   
   <url>
+    <loc>https://itgeqian.github.io/personal/about/index.html</loc>
+    
+    <lastmod>2025-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://itgeqian.github.io/life/music/index.html</loc>
     
     <lastmod>2025-11-26</lastmod>
@@ -92,7 +92,7 @@
   </url>
   
   <url>
-    <loc>https://itgeqian.github.io/life/games/index.html</loc>
+    <loc>https://itgeqian.github.io/life/movies/index.html</loc>
     
     <lastmod>2025-11-26</lastmod>
     
@@ -101,7 +101,7 @@
   </url>
   
   <url>
-    <loc>https://itgeqian.github.io/life/movies/index.html</loc>
+    <loc>https://itgeqian.github.io/life/games/index.html</loc>
     
     <lastmod>2025-11-26</lastmod>
     
@@ -191,6 +191,20 @@
 
   
   <url>
+    <loc>https://itgeqian.github.io/tags/Markdown/</loc>
+    <lastmod>2025-11-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://itgeqian.github.io/tags/%E5%A4%96%E6%8C%82%E6%A0%87%E7%AD%BE/</loc>
+    <lastmod>2025-11-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://itgeqian.github.io/tags/UML%E5%BB%BA%E6%A8%A1/</loc>
     <lastmod>2025-11-26</lastmod>
     <changefreq>weekly</changefreq>
@@ -218,21 +232,14 @@
     <priority>0.2</priority>
   </url>
   
-  <url>
-    <loc>https://itgeqian.github.io/tags/Markdown/</loc>
-    <lastmod>2025-11-26</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://itgeqian.github.io/tags/%E5%A4%96%E6%8C%82%E6%A0%87%E7%AD%BE/</loc>
-    <lastmod>2025-11-26</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
 
+  
+  <url>
+    <loc>https://itgeqian.github.io/categories/%E6%9D%82%E9%A1%B9/</loc>
+    <lastmod>2025-11-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
   
   <url>
     <loc>https://itgeqian.github.io/categories/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/</loc>
@@ -242,14 +249,14 @@
   </url>
   
   <url>
-    <loc>https://itgeqian.github.io/categories/%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3/</loc>
+    <loc>https://itgeqian.github.io/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
     <lastmod>2025-11-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://itgeqian.github.io/categories/%E6%9D%82%E9%A1%B9/</loc>
+    <loc>https://itgeqian.github.io/categories/%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3/</loc>
     <lastmod>2025-11-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
