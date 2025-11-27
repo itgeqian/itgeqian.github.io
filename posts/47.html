@@ -1,0 +1,767 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><div id="myscoll"></div><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>SSM-MyBatis篇 | geqian's Blog🍭</title><meta name="keywords" content="MyBatis"><meta name="author" content="geqian's Blog🍭"><meta name="copyright" content="geqian's Blog🍭"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="SSM-MyBatis篇（初步使用、参数处理、返回值、关联查询、分步查询、动态sql、MyBais 扩展）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SSM-MyBatis篇">
+<meta property="og:url" content="https://itgeqian.github.io/posts/47.html">
+<meta property="og:site_name" content="geqian&#39;s Blog🍭">
+<meta property="og:description" content="SSM-MyBatis篇（初步使用、参数处理、返回值、关联查询、分步查询、动态sql、MyBais 扩展）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://u7imgblog.oss-cn-hangzhou.aliyuncs.com/blogbackground/wallhaven-o59q2m.webp">
+<meta property="article:published_time" content="2025-08-29T03:19:03.000Z">
+<meta property="article:modified_time" content="2025-08-30T05:23:00.000Z">
+<meta property="article:author" content="geqian&#39;s Blog🍭">
+<meta property="article:tag" content="MyBatis">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://u7imgblog.oss-cn-hangzhou.aliyuncs.com/blogbackground/wallhaven-o59q2m.webp"><link rel="shortcut icon" href="/"><link rel="canonical" href="https://itgeqian.github.io/posts/47"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.staticfile.org/fancyapps-ui/4.0.31/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdnjs.cloudflare.com/ajax/libs/flickr-justified-gallery/2.1.2/fjGallery.min.js',
+      css: 'https://cdnjs.cloudflare.com/ajax/libs/flickr-justified-gallery/2.1.2/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'SSM-MyBatis篇',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-08-30 13:23:00'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="https://cdn1.tianli0.top/npm/element-ui@2.15.6/packages/theme-chalk/lib/index.css"><style id="themeColor"></style><style id="rightSide"></style><style id="transPercent"></style><style id="blurNum"></style><style id="settingStyle"></style><span id="fps"></span><style id="defineBg"></style><style id="menu_shadow"></style><script src="https://cdn.jsdelivr.net/npm/echarts@6/dist/echarts.min.js"></script><svg aria-hidden="true" style="position:absolute; overflow:hidden; width:0; height:0"><symbol id="icon-sun" viewBox="0 0 1024 1024"><path d="M960 512l-128 128v192h-192l-128 128-128-128H192v-192l-128-128 128-128V192h192l128-128 128 128h192v192z" fill="#FFD878" p-id="8420"></path><path d="M736 512a224 224 0 1 0-448 0 224 224 0 1 0 448 0z" fill="#FFE4A9" p-id="8421"></path><path d="M512 109.248L626.752 224H800v173.248L914.752 512 800 626.752V800h-173.248L512 914.752 397.248 800H224v-173.248L109.248 512 224 397.248V224h173.248L512 109.248M512 64l-128 128H192v192l-128 128 128 128v192h192l128 128 128-128h192v-192l128-128-128-128V192h-192l-128-128z" fill="#4D5152" p-id="8422"></path><path d="M512 320c105.888 0 192 86.112 192 192s-86.112 192-192 192-192-86.112-192-192 86.112-192 192-192m0-32a224 224 0 1 0 0 448 224 224 0 0 0 0-448z" fill="#4D5152" p-id="8423"></path></symbol><symbol id="icon-moon" viewBox="0 0 1024 1024"><path d="M611.370667 167.082667a445.013333 445.013333 0 0 1-38.4 161.834666 477.824 477.824 0 0 1-244.736 244.394667 445.141333 445.141333 0 0 1-161.109334 38.058667 85.077333 85.077333 0 0 0-65.066666 135.722666A462.08 462.08 0 1 0 747.093333 102.058667a85.077333 85.077333 0 0 0-135.722666 65.024z" fill="#FFB531" p-id="11345"></path><path d="M329.728 274.133333l35.157333-35.157333a21.333333 21.333333 0 1 0-30.165333-30.165333l-35.157333 35.157333-35.114667-35.157333a21.333333 21.333333 0 0 0-30.165333 30.165333l35.114666 35.157333-35.114666 35.157334a21.333333 21.333333 0 1 0 30.165333 30.165333l35.114667-35.157333 35.157333 35.157333a21.333333 21.333333 0 1 0 30.165333-30.165333z" fill="#030835" p-id="11346"></path></symbol></svg><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper@1.0.12/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper@1.0.12/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-filter-gitcalendar/lib/gitcalendar.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="geqian's Blog🍭" type="application/atom+xml">
+</head><body><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><div class="loading-img"></div><div class="loading-image-dot"></div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/assets/avatar.png" onerror="onerror=null;src='/assets/r1.jpg'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">65</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">42</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-home"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon--article"></use></svg><span class="menu_word" style="font-size:17px"> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guidang1">                   </use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-sekuaibiaoqian">                   </use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei">                   </use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-pinweishenghuo"></use></svg><span class="menu_word" style="font-size:17px"> 休闲</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/life/music/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-yinle">                   </use></svg><span class="menu_word" style="font-size:17px"> 八音盒</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/life/movies/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-dianying1">                   </use></svg><span class="menu_word" style="font-size:17px"> 影院</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/life/games/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-youxishoubing">                   </use></svg><span class="menu_word" style="font-size:17px"> 游戏</span></a></li></ul></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-xiangzi"></use></svg><span class="menu_word" style="font-size:17px"> 八宝箱</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/box/gallery/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-tubiaozhizuomoban">                   </use></svg><span class="menu_word" style="font-size:17px"> 画廊</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/box/animation/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-nvwumao">                   </use></svg><span class="menu_word" style="font-size:17px"> 动画</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/box/nav/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-zhifengche">                   </use></svg><span class="menu_word" style="font-size:17px"> 网址导航</span></a></li></ul></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-shejiaoxinxi"></use></svg><span class="menu_word" style="font-size:17px"> 社交</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/social/fcircle/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-pengyouquan">                   </use></svg><span class="menu_word" style="font-size:17px"> 朋友圈</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/comments/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-liuyan">                   </use></svg><span class="menu_word" style="font-size:17px"> 留言板</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/social/link/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie">                   </use></svg><span class="menu_word" style="font-size:17px"> 友人帐</span></a></li></ul></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-wangye"></use></svg><span class="menu_word" style="font-size:17px"> 网站</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/site/census/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon--tongjibiao">                   </use></svg><span class="menu_word" style="font-size:17px"> 网站统计</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/site/echarts/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-shujutongji1">                   </use></svg><span class="menu_word" style="font-size:17px"> 文章统计</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/site/time/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-xianxingshalou">                   </use></svg><span class="menu_word" style="font-size:17px"> 旧时光</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">geqian's Blog🍭</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-home"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon--article"></use></svg><span class="menu_word" style="font-size:17px"> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guidang1">                   </use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-sekuaibiaoqian">                   </use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei">                   </use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-pinweishenghuo"></use></svg><span class="menu_word" style="font-size:17px"> 休闲</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/life/music/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-yinle">                   </use></svg><span class="menu_word" style="font-size:17px"> 八音盒</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/life/movies/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-dianying1">                   </use></svg><span class="menu_word" style="font-size:17px"> 影院</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/life/games/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-youxishoubing">                   </use></svg><span class="menu_word" style="font-size:17px"> 游戏</span></a></li></ul></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-xiangzi"></use></svg><span class="menu_word" style="font-size:17px"> 八宝箱</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/box/gallery/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-tubiaozhizuomoban">                   </use></svg><span class="menu_word" style="font-size:17px"> 画廊</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/box/animation/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-nvwumao">                   </use></svg><span class="menu_word" style="font-size:17px"> 动画</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/box/nav/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-zhifengche">                   </use></svg><span class="menu_word" style="font-size:17px"> 网址导航</span></a></li></ul></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-shejiaoxinxi"></use></svg><span class="menu_word" style="font-size:17px"> 社交</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/social/fcircle/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-pengyouquan">                   </use></svg><span class="menu_word" style="font-size:17px"> 朋友圈</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/comments/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-liuyan">                   </use></svg><span class="menu_word" style="font-size:17px"> 留言板</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/social/link/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie">                   </use></svg><span class="menu_word" style="font-size:17px"> 友人帐</span></a></li></ul></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-wangye"></use></svg><span class="menu_word" style="font-size:17px"> 网站</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/site/census/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon--tongjibiao">                   </use></svg><span class="menu_word" style="font-size:17px"> 网站统计</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/site/echarts/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-shujutongji1">                   </use></svg><span class="menu_word" style="font-size:17px"> 文章统计</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/site/time/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-xianxingshalou">                   </use></svg><span class="menu_word" style="font-size:17px"> 旧时光</span></a></li></ul></div></div><center id="name-container"><a id="page-name" href="javascript:scrollToTop()">PAGE_NAME</a></center><div id="nav-right"><div id="search-button"><a class="search faa-parent animated-hover" title="检索站内任何你想要的信息"><svg class="faa-tada icon" style="height:24px;width:24px;fill:currentColor;position:relative;top:6px" aria-hidden="true"><use xlink:href="#icon-valentine_-search-love-find-heart"></use></svg><span> 搜索</span></a></div><a class="meihua faa-parent animated-hover" onclick="toggleWinbox()" title="美化设置-自定义你的风格" id="meihua-button"><svg class="faa-tada icon" style="height:26px;width:26px;fill:currentColor;position:relative;top:8px" aria-hidden="true"><use xlink:href="#icon-tupian1"></use></svg></a><a class="sun_moon faa-parent animated-hover" onclick="switchNightMode()" title="浅色和深色模式转换" id="nightmode-button"><svg class="faa-tada" style="height:25px;width:25px;fill:currentColor;position:relative;top:7px" viewBox="0 0 1024 1024"><use id="modeicon" xlink:href="#icon-moon">       </use></svg></a><div id="toggle-menu"><a><i class="fas fa-bars fa-fw"></i></a></div></div></div></nav><div id="post-info"><h1 class="post-title">SSM-MyBatis篇</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><svg class="meta_icon post-meta-icon" style="width:30px;height:30px;position:relative;top:10px"><use xlink:href="#icon-rili"></use></svg><span class="post-meta-label">发表于 </span><time class="post-meta-date-created" datetime="2025-08-29T03:19:03.000Z" title="发表于 2025-08-29 11:19:03">2025-08-29</time><span class="post-meta-separator">|</span><svg class="meta_icon post-meta-icon" style="width:18px;height:18px;position:relative;top:5px"><use xlink:href="#icon-gengxin1"></use></svg><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-08-30T05:23:00.000Z" title="更新于 2025-08-30 13:23:00">2025-08-30</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><svg class="meta_icon post-meta-icon" style="width:18px;height:18px;position:relative;top:5px"><use xlink:href="#icon-biaoqian"></use></svg><a class="post-meta-categories" href="/categories/SSM/">SSM</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><svg class="meta_icon post-meta-icon" style="width:25px;height:25px;position:relative;top:8px"><use xlink:href="#icon-charuword"></use></svg><span class="post-meta-label">字数总计:</span><span class="word-count">5588</span><span class="post-meta-separator">|</span><svg class="meta_icon post-meta-icon" style="width:20px;height:20px;position:relative;top:5px"><use xlink:href="#icon-shizhong"></use></svg><span class="post-meta-label">阅读时长:</span><span>23分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="SSM-MyBatis篇"><svg class="meta_icon post-meta-icon" style="width:25px;height:25px;position:relative;top:5px"><use xlink:href="#icon-eye"></use></svg><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="三-MyBatis篇">三.MyBatis篇</h1>
+<h2 id="1-简介">1.简介</h2>
+<p>MyBatis 是一个半自动化的 ORM（对象关系映射）框架，允许开发者手动编写 SQL 语句，从而能够更好地控制 SQL 的执行，提高性能。MyBatis 可以将 SQL 语句与 Java 代码分离，存储在 XML 文件或者注解中，让代码结构更清晰。</p>
+<h2 id="2-初步使用">2.初步使用</h2>
+<h3 id="1-导入依赖">1.导入依赖</h3>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis.spring.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-创建Do对象">2.创建Do对象</h3>
+<p>此处为基本数据对象</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="title class_"><span class="keyword">class</span> <span class="title">EmpDo</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">    <span class="keyword">private</span> S tring name;</span><br><span class="line">    <span class="keyword">private</span> Integer age;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">String</span> email;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">String</span> gender;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">String</span> address;</span><br><span class="line">    <span class="keyword">private</span> BigDecimal salary;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-Dao层创建Mapper接口">3.Dao层创建Mapper接口</h3>
+<p>@Mapper注解告诉<strong>mybatis</strong>这是一个Mapper接口</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">EmpMapper</span> </span>&#123;</span><br><span class="line">    <span class="function">EmpDo <span class="title">getEmpById</span><span class="params">(Integer id)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4-生成xml配置文件">4.生成xml配置文件</h3>
+<p>namespace写Mapper对象的全类名</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span> ?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">mapper</span> <span class="keyword">PUBLIC</span> <span class="string">&quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;</span> <span class="string">&quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;</span> &gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mapper</span> <span class="attr">namespace</span>=<span class="string">&quot;com.zhang.mybatis.dao.EmpMapper&quot;</span>&gt;</span></span><br><span class="line">    //此处添加sql方法</span><br><span class="line"><span class="tag">&lt;/<span class="name">mapper</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>还需要在application.properties中指明xml配置文件的位置</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">mybatis.mapper-locations</span>=classpath:mapper/**.xml</span><br></pre></td></tr></table></figure>
+<h3 id="5-编写sql">5.编写sql</h3>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="keyword">select</span> id=<span class="string">&quot;getEmpById&quot;</span> resultType=<span class="string">&quot;com.zhang.mybatis.bean.EmpDo&quot;</span>&gt;</span><br><span class="line">    <span class="keyword">select</span> * <span class="keyword">from</span> employee <span class="keyword">where</span> id = #&#123;id&#125;</span><br><span class="line">&lt;/<span class="keyword">select</span>&gt;</span><br><span class="line">&lt;<span class="keyword">insert</span> id=<span class="string">&quot;addEmp&quot;</span>&gt;</span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> employee(last_name,email,gender) <span class="keyword">values</span> (#&#123;lastName&#125;,#&#123;email&#125;,#&#123;gender&#125;)</span><br><span class="line">&lt;/<span class="keyword">insert</span>&gt;</span><br><span class="line">&lt;<span class="keyword">update</span> id=<span class="string">&quot;updateEmp&quot;</span>&gt;</span><br><span class="line">    <span class="keyword">update</span> employee <span class="keyword">set</span> last_name = #&#123;lastName&#125;,email = #&#123;email&#125;,gender = #&#123;gender&#125; <span class="keyword">where</span> id = #&#123;id&#125;</span><br><span class="line">&lt;/<span class="keyword">update</span>&gt;</span><br><span class="line">&lt;<span class="keyword">delete</span> id=<span class="string">&quot;deleteEmpById&quot;</span>&gt;</span><br><span class="line">    <span class="keyword">delete</span> <span class="keyword">from</span> employee <span class="keyword">where</span> id = #&#123;id&#125;</span><br><span class="line">&lt;/<span class="keyword">delete</span>&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>id对应<strong>Mapper对象</strong>的方法名</li>
+<li>resultType对应<strong>返回值</strong></li>
+<li>括号间为sql语言</li>
+</ul>
+<p><strong>接下来就可以直接调用Mapper方法了</strong></p>
+<h3 id="6-开启自增id">6.开启自增id</h3>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;insert <span class="attribute">id</span>=<span class="string">&quot;addEmp&quot;</span> <span class="attribute">useGeneratedKeys</span>=<span class="string">&quot;true&quot;</span> <span class="attribute">keyProperty</span>=<span class="string">&quot;id&quot;</span>&gt;&lt;/insert&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>useGeneratedKeys表示是否开始自增id</li>
+<li>keyProperty指定自动生成的id在Do中对应的属性，把自动生成的id封装回Emp对象的id属性中</li>
+</ul>
+<h3 id="7-命名规则转化">7.命名规则转化</h3>
+<p>java和mysql数据库采用了不同的命名规则：</p>
+<ul>
+<li>java采用驼峰命名（userName）</li>
+<li>数据库采用蛇形命名（user_name）</li>
+</ul>
+<p>在配置文件中开启命名规则自动转换，才能使名称一 一对应上</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mybatis.<span class="keyword">configuration</span>.map-underscore-<span class="keyword">to</span>-camel-<span class="keyword">case</span>=<span class="keyword">true</span></span><br><span class="line">logging.<span class="keyword">level</span>.com.atguigu.mybatis.mapper=<span class="keyword">debug</span>//开<span class="keyword">SQL</span>日志</span><br></pre></td></tr></table></figure>
+<h3 id="8-细节">8.细节</h3>
+<ul>
+<li>
+<ol>
+<li>每个Dao 接口 对应一个 XML 实现文件</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>Dao 实现类 是一个由 MyBatis 自动创建出来的代理对象</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>XML 中 namespace 需要绑定 Dao 接口 的全类名</li>
+</ol>
+</li>
+<li>
+<ol start="4">
+<li>XML 中使用 select、update、insert、delete 标签来代表增删改查</li>
+</ol>
+</li>
+<li>
+<ol start="5">
+<li>每个 CRUD 标签 的 id 必须为Dao接口的方法名</li>
+</ol>
+</li>
+<li>
+<ol start="6">
+<li>每个 CRUD标签的 resultType 是Dao接口的返回值类型全类名</li>
+</ol>
+</li>
+<li>
+<ol start="7">
+<li>未来遇到复杂的返回结果封装，需要指定 resultMap 规则</li>
+</ol>
+</li>
+<li>
+<ol start="8">
+<li>以后 xxxDao 我们将按照习惯命名为 xxxMapper，这样更明显的表示出 持久层是用 MyBatis 实现的</li>
+</ol>
+</li>
+</ul>
+<h2 id="3-参数处理">3.参数处理</h2>
+<p><img src="https://www.legendkiller.xyz/wp-content/uploads/2025/09/image-1-1024x606.png" alt="img"></p>
+<h3 id="1-占位符-和-的区别">1.占位符#{}和${}的区别</h3>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select * <span class="keyword">from</span> employee <span class="keyword">where</span> <span class="built_in">id</span> = <span class="comment">#&#123;id&#125;</span></span><br><span class="line"></span><br><span class="line">select * <span class="keyword">from</span> employee <span class="keyword">where</span> <span class="built_in">id</span> = $&#123;<span class="built_in">id</span>&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>#{}</strong> ：这是MyBatis中预编译的占位符，用于将参数值安全地插入到SQL语句中。在SQL执行前，MyBatis会将#{} 替换为?，然后使用PreparedStatement来设置参数值，有效防止了sql注入问题。</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Connection</span> <span class="keyword">connection</span> = dataSource.getConnection();</span><br><span class="line">String <span class="keyword">sql</span> = &quot;select * from employee where id=?&quot;;</span><br><span class="line">PreparedStatement ps = <span class="keyword">connection</span>.prepareStatement(<span class="keyword">sql</span>);</span><br><span class="line">ps.setString(<span class="number">1</span>, &quot;admin&quot;);</span><br></pre></td></tr></table></figure>
+<p>${}：这是字符串替换占位符，MyBatis会直接将${} 替换为实际的参数值，而不进行预编译，会引发sql注入问题。</p>
+<p>只有参数位置动态取值才可以用#{}，jdbc层面表名等位置不支持预编译，只能用${}。</p>
+<p>总结：能用#{}大括号的地方就用，不能用#{}的地方用${}</p>
+<p><img src="https://www.legendkiller.xyz/wp-content/uploads/2025/09/image-1024x505.png" alt="img"></p>
+<h3 id="2-单参数取值">2.单参数取值</h3>
+<ul>
+<li>对象取值：直接写属性名，不要写对象名</li>
+</ul>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * <span class="keyword">from</span> employee <span class="keyword">where</span> <span class="built_in">id</span> = <span class="comment">#&#123;name&#125;</span></span><br></pre></td></tr></table></figure>
+<p>list取值：使用索引</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * <span class="keyword">from</span> employee <span class="keyword">where</span> <span class="built_in">id</span> = <span class="comment">#&#123;ids[5]&#125;</span></span><br></pre></td></tr></table></figure>
+<p>map取值： 使用key值</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * <span class="keyword">from</span> employee <span class="keyword">where</span> <span class="built_in">id</span> = <span class="comment">#&#123;myId&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-多参数取值">3.多参数取值</h3>
+<p><strong>新版mybatis</strong>支持直接使用**#{参数名}**</p>
+<p><strong>老版mybatis</strong>需要在参数前使用**@Param**指定参数名</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Emp getEmployByIdAndName(<span class="meta">@Param(<span class="string">&quot;id&quot;</span>)</span> <span class="built_in">Long</span> id, <span class="meta">@Param(<span class="string">&quot;empName&quot;</span>)</span> Employee emp)</span><br><span class="line">select * from Employee <span class="keyword">where</span> id = #&#123;id&#125; and name = #&#123;emp.name&#125;</span><br></pre></td></tr></table></figure>
+<p>最佳实践：即使只有一个参数，也用 @Param 指定参数名</p>
+<h2 id="4-返回值-结果封装">4.返回值-结果封装</h2>
+<h3 id="1-一般返回：">1.一般返回：</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="keyword">select</span> <span class="built_in">id</span>=<span class="string">&quot;getEmpById&quot;</span> resultType=<span class="string">&quot;com.zhang.mybatis.bean.EmpDo&quot;</span>&gt;</span><br><span class="line">    <span class="keyword">select</span> * from employee <span class="built_in">where</span> <span class="built_in">id</span> = <span class="comment">#&#123;id&#125;</span></span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<p>resultType规定返回值类型</p>
+<p><img src="https://www.legendkiller.xyz/wp-content/uploads/2025/09/image-2-1024x577.png" alt="img"></p>
+<p><img src="https://www.legendkiller.xyz/wp-content/uploads/2025/09/image-3-1024x802.png" alt="img"></p>
+<h3 id="2-返回map：">2.返回map：</h3>
+<p><img src="https://www.legendkiller.xyz/wp-content/uploads/2025/09/image-4-1024x312.png" alt="img"></p>
+<p>mapper方法中使用**@Mapper(“”)**指定key值，key默认从对象属性值中取</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@Mapper</span>(<span class="string">&quot;id&quot;</span>)<span class="comment">//将id作为key值</span></span><br><span class="line">Map&lt;Integer,Emp&gt; <span class="built_in">getAllMap</span>();</span><br></pre></td></tr></table></figure>
+<p>返回值的value实际上不是指定类(Emp)，而是一个<strong>HashMap</strong>,</p>
+<p>resultType不写map，写指定类，value值才为指定类</p>
+<h3 id="3-自定义结果集-ResultMap">3.自定义结果集- ResultMap</h3>
+<p>数据库的字段 如果和 Bean的属性 不能一一对应，有两种办法</p>
+<ul>
+<li>1、如果符合驼峰命名，则开启驼峰命名规则</li>
+<li>2、编写自定义结果集（ResultMap） 进行封装</li>
+</ul>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;resultMap id<span class="operator">=</span><span class="string">&quot;EmpResultMap&quot;</span> type<span class="operator">=</span><span class="string">&quot;com.atguigu.mybatis.entity.Employee&quot;</span>&gt;</span><br><span class="line">        &lt;id column<span class="operator">=</span><span class="string">&quot;emp_id&quot;</span> property<span class="operator">=</span><span class="string">&quot;empId&quot;</span>/&gt;</span><br><span class="line">        &lt;result column<span class="operator">=</span><span class="string">&quot;emp_name&quot;</span> property<span class="operator">=</span><span class="string">&quot;empName&quot;</span>/&gt;</span><br><span class="line">        &lt;result column<span class="operator">=</span><span class="string">&quot;emp_salary&quot;</span> property<span class="operator">=</span><span class="string">&quot;empSalary&quot;</span>/&gt;</span><br><span class="line">    &lt;/resultMap&gt;</span><br></pre></td></tr></table></figure>
+<p>**默认封装规则(resultType)：**JavaBean中的属性名 去数据库表中 找对应列名的值，一一映射封装。</p>
+<p>**自定义封装规则(resultMap)：**明确指定每一列如何封装到JavaBean中</p>
+<ul>
+<li>id 标签：必须指定主键列映射规则</li>
+<li>result 标签：指定普通列映射规则</li>
+<li>collection 标签：指定自定义集合封装规则</li>
+<li>association 标签：指定自定义对象封装规则</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">resultMap</span> <span class="attr">id</span>=<span class="string">&quot;EmpRM&quot;</span> <span class="attr">type</span>=<span class="string">&quot;com.zhang.mybatis.bean.EmpDo&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--声明主键映射规则--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">id</span> <span class="attr">property</span>=<span class="string">&quot;id&quot;</span> <span class="attr">column</span>=<span class="string">&quot;id&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--声明普通列映射规则--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">&quot;name&quot;</span> <span class="attr">column</span>=<span class="string">&quot;name&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">&quot;age&quot;</span> <span class="attr">column</span>=<span class="string">&quot;age&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resultMap</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在方法中根据ResultMap的id使用对照规则</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="keyword">select</span> <span class="built_in">id</span>=<span class="string">&quot;getEmpById&quot;</span> resultMap=<span class="string">&quot;EmpRM&quot;</span>&gt;</span><br><span class="line">    <span class="keyword">select</span> * from employee <span class="built_in">where</span> <span class="built_in">id</span> = <span class="comment">#&#123;id&#125;</span></span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="4-关联查询">4.关联查询</h2>
+<h3 id="一对一关系封装">一对一关系封装</h3>
+<ul>
+<li>association 标签：指定自定义对象封装规则，一般用户联合查询一对一关系的封装。比如一个用户对应一个订单
+<ul>
+<li>javaType：指定关联的Bean的类型</li>
+<li>select：指定分步查询调用的方法</li>
+<li>column：指定分步查询传递的参数列</li>
+</ul>
+</li>
+</ul>
+<p>按照id查询订单以及下单的客户信息</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="keyword">select</span> id=<span class="string">&quot;getOrderById&quot;</span> resultType=<span class="string">&quot;com.zhang.mybatis.bean.Order&quot;</span>&gt;</span><br><span class="line">    <span class="keyword">select</span> * <span class="keyword">from</span> orders</span><br><span class="line">    left <span class="keyword">join</span> customer <span class="keyword">on</span> orders.customer_id = customer.id</span><br><span class="line">    <span class="keyword">where</span> orders.id = <span class="meta">#&#123;id&#125;</span></span><br><span class="line">&lt;/<span class="keyword">select</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>使用默认封装(resultType)无法将连接的对象正确装填(customer将返回为null)</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Order(<span class="attribute">id</span>=1, <span class="attribute">address</span>=chengdu, <span class="attribute">amount</span>=5000, <span class="attribute">customerId</span>=1, <span class="attribute">customer</span>=<span class="literal">null</span>)</span><br></pre></td></tr></table></figure>
+<p>这时候要在自定义封装(resultMap)中使用<strong>association标签</strong></p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;resultMap <span class="built_in">id</span>=<span class="string">&quot;OrderRM&quot;</span> type=<span class="string">&quot;com.zhang.mybatis.bean.Order&quot;</span>&gt;</span><br><span class="line">    &lt;<span class="built_in">id</span> <span class="keyword">property</span>=<span class="string">&quot;id&quot;</span> column=<span class="string">&quot;id&quot;</span>&gt;&lt;/<span class="built_in">id</span>&gt;</span><br><span class="line">    &lt;<span class="literal">result</span> <span class="keyword">property</span>=<span class="string">&quot;address&quot;</span> column=<span class="string">&quot;address&quot;</span>&gt;&lt;/<span class="literal">result</span>&gt;</span><br><span class="line">    &lt;<span class="literal">result</span> <span class="keyword">property</span>=<span class="string">&quot;amount&quot;</span> column=<span class="string">&quot;amount&quot;</span>&gt;&lt;/<span class="literal">result</span>&gt;</span><br><span class="line">    &lt;<span class="literal">result</span> column=<span class="string">&quot;customer_id&quot;</span> <span class="keyword">property</span>=<span class="string">&quot;customerId&quot;</span>&gt;&lt;/<span class="literal">result</span>&gt;</span><br><span class="line">    &lt;association <span class="keyword">property</span>=<span class="string">&quot;customer&quot;</span> javaType=<span class="string">&quot;com.zhang.mybatis.bean.Customer&quot;</span>&gt;</span><br><span class="line">        &lt;<span class="built_in">id</span> <span class="keyword">property</span>=<span class="string">&quot;id&quot;</span> column=<span class="string">&quot;id&quot;</span>&gt;&lt;/<span class="built_in">id</span>&gt;</span><br><span class="line">        &lt;<span class="literal">result</span> <span class="keyword">property</span>=<span class="string">&quot;name&quot;</span> column=<span class="string">&quot;name&quot;</span>&gt;&lt;/<span class="literal">result</span>&gt;</span><br><span class="line">    &lt;/association&gt;</span><br><span class="line">&lt;/resultMap&gt;</span><br></pre></td></tr></table></figure>
+<p>左连接时，<strong>association标签</strong>中定义了右表的封装关系</p>
+<h3 id="一对多关系封装">一对多关系封装</h3>
+<ul>
+<li>collection 标签：指定自定义对象封装规则，一般用户联合查询一对一关系的封装。比如一个用户对应一个订单
+<ul>
+<li>ofType：指定集合中每个元素的类型</li>
+<li>select：指定分步查询调用的方法</li>
+<li>column：指定分步查询传递的参数列</li>
+</ul>
+</li>
+</ul>
+<p>按照id查询客户以及下的所有订单</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;resultMap <span class="built_in">id</span>=<span class="string">&quot;CustomerRM&quot;</span> type=<span class="string">&quot;com.zhang.myb atis.bean.Customer&quot;</span>&gt;</span><br><span class="line">    &lt;<span class="built_in">id</span> <span class="keyword">property</span>=<span class="string">&quot;id&quot;</span> column=<span class="string">&quot;id&quot;</span>&gt;&lt;/<span class="built_in">id</span>&gt;</span><br><span class="line">    &lt;<span class="literal">result</span> <span class="keyword">property</span>=<span class="string">&quot;name&quot;</span> column=<span class="string">&quot;name&quot;</span>&gt;&lt;/<span class="literal">result</span>&gt;</span><br><span class="line">    &lt;collection <span class="keyword">property</span>=<span class="string">&quot;orders&quot;</span> ofType=<span class="string">&quot;com.zhang.mybatis.bean.Order&quot;</span>&gt;</span><br><span class="line">        &lt;<span class="built_in">id</span> <span class="keyword">property</span>=<span class="string">&quot;id&quot;</span> column=<span class="string">&quot;id&quot;</span>&gt;&lt;/<span class="built_in">id</span>&gt;</span><br><span class="line">        &lt;<span class="literal">result</span> <span class="keyword">property</span>=<span class="string">&quot;address&quot;</span> column=<span class="string">&quot;address&quot;</span>&gt;&lt;/<span class="literal">result</span>&gt;</span><br><span class="line">        &lt;<span class="literal">result</span> <span class="keyword">property</span>=<span class="string">&quot;amount&quot;</span> column=<span class="string">&quot;amount&quot;</span>&gt;&lt;/<span class="literal">result</span>&gt;</span><br><span class="line">        &lt;<span class="literal">result</span> column=<span class="string">&quot;customer_id&quot;</span> <span class="keyword">property</span>=<span class="string">&quot;customerId&quot;</span>&gt;&lt;/<span class="literal">result</span>&gt;</span><br><span class="line">    &lt;/collection&gt;</span><br><span class="line">&lt;/resultMap&gt;</span><br></pre></td></tr></table></figure>
+<p>property对应集合，ofType对应单一类</p>
+<h2 id="5-分步查询">5.分步查询</h2>
+<ul>
+<li>在 association 和 collection 的封装过程中，可以使用 select + column 指定分步查询逻辑
+<ul>
+<li>select：指定分步查询调用的方法</li>
+<li>column：指定分步查询传递的参数
+<ul>
+<li>传递单个：直接写列名，表示将这列的值作为参数传递给下一个查询</li>
+<li>传递多个：column=“{prop1=col1,prop2=col2}”，下一个查询使用prop1、prop2取值</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-手动分步查询">1.手动分步查询</h3>
+<figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//按照id查询订单</span></span><br><span class="line"><span class="keyword">Order</span> <span class="keyword">order</span> = orderDao.getOrderById(<span class="number">1</span>);</span><br><span class="line"><span class="comment">//使用订单中的用户id查询用户</span></span><br><span class="line">Customer customer = OrderDao.getCustomerById(<span class="keyword">order</span>.getCustomerId());</span><br><span class="line"><span class="comment">//将用户设置到订单中</span></span><br><span class="line"><span class="keyword">order</span>.setCustomer(customer);</span><br></pre></td></tr></table></figure>
+<h3 id="2-自动分步查询">2.自动分步查询</h3>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;resultMap <span class="built_in">id</span>=<span class="string">&quot;OrderRM&quot;</span> type=<span class="string">&quot;com.zhang.mybatis.bean.Order&quot;</span>&gt;</span><br><span class="line">        &lt;<span class="built_in">id</span> <span class="keyword">property</span>=<span class="string">&quot;id&quot;</span> column=<span class="string">&quot;id&quot;</span>&gt;&lt;/<span class="built_in">id</span>&gt;</span><br><span class="line">        &lt;<span class="literal">result</span> <span class="keyword">property</span>=<span class="string">&quot;address&quot;</span> column=<span class="string">&quot;address&quot;</span>&gt;&lt;/<span class="literal">result</span>&gt;</span><br><span class="line">        &lt;<span class="literal">result</span> <span class="keyword">property</span>=<span class="string">&quot;amount&quot;</span> column=<span class="string">&quot;amount&quot;</span>&gt;&lt;/<span class="literal">result</span>&gt;</span><br><span class="line">        &lt;<span class="literal">result</span> <span class="keyword">property</span>=<span class="string">&quot;customerId&quot;</span> column=<span class="string">&quot;customer_id&quot;</span>&gt;&lt;/<span class="literal">result</span>&gt;</span><br><span class="line">        </span><br><span class="line">        &lt;collection <span class="keyword">property</span>=<span class="string">&quot;customers&quot;</span></span><br><span class="line">                    select=<span class="string">&quot;com.zhang.mybatis.dao.OrderDao.getCustomerById&quot;</span></span><br><span class="line">                    column=<span class="string">&quot;customer_id&quot;</span>&gt;</span><br><span class="line">        &lt;/collection&gt;</span><br><span class="line">        </span><br><span class="line">    &lt;/resultMap&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在<strong>collection</strong>或者<strong>association</strong>中使用<strong>select</strong>属性告诉mybatis在装填该项时<strong>使用另一个查询方法</strong></li>
+<li><strong>column</strong>指定传递的参数，当出现多个参数时，使用以下格式</li>
+</ul>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">column</span><span class="operator">=</span><span class="string">&quot;&#123;userName=user_name,userAge=user_age&#125;&quot;</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-超级分步问题">3.超级分步问题</h3>
+<p>问题：当实体类之间存在循环引用时，例如 A 类关联 B 类，B 类又关联 A 类，分步查询可能会陷入无限循环，最终导致栈溢出错误。</p>
+<p>解决办法：使用嵌套查询，把分步查询改成嵌套查询，在一个 SQL 语句里完成所有关联查询。不过这样可能会让 SQL 语句变得复杂，降低可读性。</p>
+<h2 id="6-延迟加载">6.延迟加载</h2>
+<ul>
+<li>分步查询 有时候并不需要立即运行，我们希望在用到的时候再去查询，可以开启延迟加载的功能
+<ul>
+<li>全局配置：
+<ul>
+<li>mybatis.configuration.lazy-loading-enabled=true//开启 MyBatis 的延迟加载特性。</li>
+<li>mybatis.configuration.aggressive-lazy-loading=false//禁用积极延迟加载。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="7-动态sql">7.动态sql</h2>
+<h3 id="1-简介-2">1.简介</h3>
+<ul>
+<li>动态 SQL 是 MyBatis 的强大特性之一。如果你使用过 JDBC 或其它类似的框架，你应该能理解根据不同条件拼接 SQL 语句有多痛苦，例如拼接时要确保不能忘记添加必要的空格，还要注意去掉列表最后一个列名的逗号。利用动态 SQL，可以彻底摆脱这种痛苦。</li>
+<li>使用动态 SQL 并非一件易事，但借助可用于任何 SQL 映射语句中的强大的动态 SQL 语言，MyBatis 显著地提升了这一特性的易用性。</li>
+</ul>
+<p>mybatis中动态sql 默认事务回滚开启</p>
+<ol>
+<li>真正和事务相关的不是 MyBatis，而是它运行所在的环境。</li>
+<li>比如在 Spring 中，<code>@Transactional</code> 注解会开启事务，出现 <strong>运行时异常 (RuntimeException) 或 Error</strong> 时，默认会自动回滚。</li>
+<li>MyBatis 在 <strong>原生使用 SqlSession</strong> 时，也会在你没有显式调用 <code>commit()</code> 之前，默认处于一个事务中（不自动提交）。如果执行出错，它会回滚。</li>
+</ol>
+<ul>
+<li><strong>动态 SQL 只是拼接 SQL，不影响事务；</strong></li>
+<li>MyBatis 的 <code>SqlSession</code> 默认不会自动提交事务，只有在调用 <code>commit()</code> 时才提交；</li>
+<li>如果在执行过程中抛出异常（比如 SQL 拼接错误、数据库约束异常），事务就会回滚；</li>
+<li>在 Spring + MyBatis 中，如果用了 <code>@Transactional</code>，Spring 会接管事务管理，默认规则同样是运行时异常触发回滚。</li>
+</ul>
+<h3 id="2-标签">2.标签</h3>
+<h4 id="if、where-标签">if、where 标签</h4>
+<ul>
+<li>需求：按照 empName 和 empSalary 查询员工。</li>
+<li>注意：前端不一定携带所有条件</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="keyword">select</span> <span class="built_in">id</span>=<span class="string">&quot;selectEmployeeByCondition&quot;</span> resultType=<span class="string">&quot;employee&quot;</span>&gt;</span><br><span class="line">    <span class="keyword">select</span> emp_id,emp_name,emp_salary from t_emp</span><br><span class="line">    &lt;<span class="built_in">where</span>&gt;</span><br><span class="line">        &lt;<span class="keyword">if</span> <span class="built_in">test</span>=<span class="string">&quot;empName != null&quot;</span>&gt;</span><br><span class="line">            or emp_name=#&#123;empName&#125;</span><br><span class="line">        &lt;/if&gt;</span><br><span class="line">        &lt;<span class="keyword">if</span> <span class="built_in">test</span>=<span class="string">&quot;empSalary !=null&quot;</span>&gt;</span><br><span class="line">            or emp_salary&gt;#&#123;empSalary&#125;</span><br><span class="line">        &lt;/if&gt;</span><br><span class="line">    &lt;/where&gt;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="set标签">set标签</h4>
+<ul>
+<li>需求：修改 empName 和 empSalary</li>
+<li>注意：前端不一定携带所有条件</li>
+</ul>
+<figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">update</span> <span class="attr">id</span>=<span class="string">&quot;updateEmployeeDynamic&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    update t_emp</span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">set</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">&quot;empName != null&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            emp_name=#</span><span class="template-variable">&#123;empName&#125;</span><span class="language-xml">,</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">&quot;empSalary <span class="symbol">&amp;lt;</span> 3000&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            emp_salary=#</span><span class="template-variable">&#123;empSalary&#125;</span><span class="language-xml">,</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">set</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    where emp_id=#</span><span class="template-variable">&#123;empId&#125;</span><span class="language-xml"></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">update</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<h4 id="trim标签">trim标签</h4>
+<p>trim 可以实现 set 去掉多余逗号，where 去掉多余and/or 的功能， 不过写起来比较麻烦</p>
+<figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;selectEmployeeByConditionByTrim&quot;</span> <span class="attr">resultType</span>=<span class="string">&quot;com.atguigu.mybatis.entity.Employee&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        select emp_id,emp_name,emp_age,emp_salary,emp_gender from t_emp</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">trim</span> <span class="attr">prefix</span>=<span class="string">&quot;where&quot;</span> <span class="attr">suffixOverrides</span>=<span class="string">&quot;and|or&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">&quot;empName != null&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">                emp_name=#</span><span class="template-variable">&#123;empName&#125;</span><span class="language-xml"> and</span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">&quot;empSalary <span class="symbol">&amp;gt;</span> 3000&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">                emp_salary&gt;#</span><span class="template-variable">&#123;empSalary&#125;</span><span class="language-xml"> and</span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">&quot;empAge <span class="symbol">&amp;lt;</span>= 20&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">                emp_age=#</span><span class="template-variable">&#123;empAge&#125;</span><span class="language-xml"> or</span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">&quot;empGender==&#x27;male&#x27;&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">                emp_gender=#</span><span class="template-variable">&#123;empGender&#125;</span><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">trim</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>当标签中存在内容时，为该内容添加<strong>前缀（prefix）<strong>或者</strong>后缀（suffix）</strong></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;trim <span class="attribute">prefix</span>=<span class="string">&quot;前缀&quot;</span> <span class="attribute">suffix</span>=<span class="string">&quot;后缀&quot;</span>&gt;&lt;/trim&gt;</span><br></pre></td></tr></table></figure>
+<p>标签体中最终生成的字符串如果以指定<strong>前缀（prefixOverrides）<strong>或者</strong>后缀（suffixOverrides）<strong>开始，就将该前缀</strong>覆盖为空串</strong></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;trim <span class="attribute">prefixOverrides</span>=<span class="string">&quot;前缀&quot;</span> <span class="attribute">suffixOverrides</span>=<span class="string">&quot;后缀&quot;</span>&gt;&lt;/trim&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="choose-when-otherwise标签">choose/when/otherwise标签</h4>
+<ul>
+<li>在多个分支条件中，仅执行一个。</li>
+</ul>
+<figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;selectEmployeeByConditionByChoose&quot;</span> </span></span></span><br><span class="line"><span class="tag"><span class="language-xml">              <span class="attr">resultType</span>=<span class="string">&quot;com.atguigu.mybatis.entity.Employee&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    select emp_id,emp_name,emp_salary from t_emp where</span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">choose</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">when</span> <span class="attr">test</span>=<span class="string">&quot;empName != null&quot;</span>&gt;</span>emp_name=#</span><span class="template-variable">&#123;empName&#125;</span><span class="language-xml"><span class="tag">&lt;/<span class="name">when</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">when</span> <span class="attr">test</span>=<span class="string">&quot;empSalary <span class="symbol">&amp;lt;</span> 3000&quot;</span>&gt;</span>emp_salary <span class="symbol">&amp;lt;</span> 3000<span class="tag">&lt;/<span class="name">when</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">otherwise</span>&gt;</span>1=1<span class="tag">&lt;/<span class="name">otherwise</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">choose</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p><choose>：作为根标签，包裹多个 <when> 和一个可选的 <otherwise> 标签，用于表示一组条件选择逻辑。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">choose</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">when</span> <span class="attr">test</span>=<span class="string">&quot;condition1&quot;</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- SQL 片段 1 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">when</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">when</span> <span class="attr">test</span>=<span class="string">&quot;condition2&quot;</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- SQL 片段 2 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">when</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 可以有多个 &lt;when&gt; 标签 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">otherwise</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 默认 SQL 片段 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">otherwise</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">choose</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="foreach标签">foreach标签</h4>
+<ul>
+<li>用来遍历，循环；常用于批量插入场景；批量单个SQL</li>
+</ul>
+<figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="language-xml"><span class="comment">&lt;!--</span></span></span><br><span class="line"><span class="comment"><span class="language-xml">    collection属性：要遍历的集合</span></span></span><br><span class="line"><span class="comment"><span class="language-xml">    item属性：遍历集合的过程中能得到每一个具体对象，在item属性中设置一个名字，将来通过这个名字引用遍历出来的对象</span></span></span><br><span class="line"><span class="comment"><span class="language-xml">    separator属性：指定当foreach标签的标签体重复拼接字符串时，各个标签体字符串之间的分隔符</span></span></span><br><span class="line"><span class="comment"><span class="language-xml">    open属性：指定整个循环把字符串拼好后，字符串整体的前面要添加的字符串</span></span></span><br><span class="line"><span class="comment"><span class="language-xml">    close属性：指定整个循环把字符串拼好后，字符串整体的后面要添加的字符串</span></span></span><br><span class="line"><span class="comment"><span class="language-xml">    index属性：这里起一个名字，便于后面引用</span></span></span><br><span class="line"><span class="comment"><span class="language-xml">        遍历List集合，这里能够得到List集合的索引值</span></span></span><br><span class="line"><span class="comment"><span class="language-xml">        遍历Map集合，这里能够得到Map集合的key</span></span></span><br><span class="line"><span class="comment"><span class="language-xml"> --&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">foreach</span> <span class="attr">collection</span>=<span class="string">&quot;empList&quot;</span> <span class="attr">item</span>=<span class="string">&quot;emp&quot;</span> <span class="attr">separator</span>=<span class="string">&quot;,&quot;</span> <span class="attr">open</span>=<span class="string">&quot;values&quot;</span> <span class="attr">index</span>=<span class="string">&quot;myIndex&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    (#</span><span class="template-variable">&#123;emp.empName&#125;</span><span class="language-xml">,#</span><span class="template-variable">&#123;myIndex&#125;</span><span class="language-xml">,#</span><span class="template-variable">&#123;emp.empSalary&#125;</span><span class="language-xml">,#</span><span class="template-variable">&#123;emp.empGender&#125;</span><span class="language-xml">)</span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">foreach</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>IN子句：查询多ID记录，生成如 (id1, id2)。</li>
+</ul>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="keyword">select</span> id=&quot;getOrdersByIds&quot; resultMap=&quot;OrderRM&quot;&gt;</span><br><span class="line">    <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> orders</span><br><span class="line">    <span class="keyword">WHERE</span> id <span class="keyword">IN</span></span><br><span class="line">    &lt;<span class="keyword">foreach</span> item=&quot;item&quot; <span class="keyword">index</span>=&quot;index&quot; collection=&quot;orderIds&quot;</span><br><span class="line">             <span class="keyword">open</span>=&quot;(&quot; separator=&quot;,&quot; <span class="keyword">close</span>=&quot;)&quot;&gt;</span><br><span class="line">        #&#123;item&#125;</span><br><span class="line">    &lt;/<span class="keyword">foreach</span>&gt;</span><br><span class="line">&lt;/<span class="keyword">select</span>&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>批量插入：生成多个 VALUES 子句。</li>
+</ul>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="keyword">insert</span> id=&quot;batchInsertOrders&quot;&gt;</span><br><span class="line">    <span class="keyword">INSERT</span> <span class="keyword">INTO</span> orders (address, amount, customer_id)</span><br><span class="line">    <span class="keyword">VALUES</span></span><br><span class="line">    &lt;<span class="keyword">foreach</span> item=&quot;order&quot; <span class="keyword">index</span>=&quot;index&quot; collection=&quot;orderList&quot;</span><br><span class="line">             separator=&quot;,&quot;&gt;</span><br><span class="line">        (#&#123;<span class="keyword">order</span>.address&#125;, #&#123;<span class="keyword">order</span>.amount&#125;, #&#123;<span class="keyword">order</span>.customerId&#125;)</span><br><span class="line">    &lt;/<span class="keyword">foreach</span>&gt;</span><br><span class="line">&lt;/<span class="keyword">insert</span>&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>批量更新：结合 CASE WHEN 语句。</li>
+</ul>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="keyword">update</span> id=<span class="string">&quot;batchUpdateOrders&quot;</span>&gt;</span><br><span class="line">    &lt;foreach <span class="keyword">collection</span>=<span class="string">&quot;emps&quot;</span> item=<span class="string">&quot;e&quot;</span> separator=<span class="string">&quot;;&quot;</span>&gt;</span><br><span class="line">    	<span class="keyword">update</span> t_emp <span class="keyword">set</span> emp_name = #&#123;<span class="built_in">e</span>.empName&#125; <span class="keyword">where</span> id = #&#123;<span class="built_in">e</span>.id&#125;</span><br><span class="line">    &lt;/foreach&gt;</span><br><span class="line">&lt;/<span class="keyword">update</span>&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="sql片段">sql片段</h4>
+<p>•抽取可以复用的SQL片段</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;sql <span class="built_in">id</span>=<span class="string">&quot;empColumn&quot;</span>&gt;</span><br><span class="line">     emp_id,emp_name,emp_age,emp_salary,emp_gender</span><br><span class="line">&lt;/sql&gt;</span><br><span class="line"></span><br><span class="line">&lt;<span class="keyword">select</span> <span class="built_in">id</span>=<span class="string">&quot;getEmp&quot;</span> resultType=<span class="string">&quot;com.atguigu.mybatis.entity.Employee&quot;</span>&gt;</span><br><span class="line">    <span class="keyword">select</span></span><br><span class="line">        &lt;include refid=<span class="string">&quot;empColumn&quot;</span>/&gt;</span><br><span class="line">    from `t_emp` <span class="built_in">where</span> <span class="built_in">id</span> = <span class="comment">#&#123;id&#125;</span></span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="8-特殊字符">8.特殊字符</h2>
+<p>•以后在xml中，以下字符需要用转义字符，不能直接写</p>
+<table>
+<thead>
+<tr>
+<th><strong>原始字符</strong></th>
+<th><strong>转义字符</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&amp;</td>
+<td>&amp;</td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td>&lt;</td>
+</tr>
+<tr>
+<td>&gt;</td>
+<td>&gt;</td>
+</tr>
+<tr>
+<td>&quot;</td>
+<td>&quot;</td>
+</tr>
+<tr>
+<td>’</td>
+<td>'</td>
+</tr>
+</tbody>
+</table>
+<h2 id="9-MyBais-扩展">9.MyBais 扩展</h2>
+<h3 id="1-缓存机制">1.缓存机制</h3>
+<ul>
+<li>MyBatis 拥有二级缓存机制：
+<ul>
+<li>一级缓存默认开启； 事务级别：当前事务共享</li>
+<li>二级缓存需要手动配置开启：所有事务共享</li>
+<li>缓存中有就不用查数据库；</li>
+<li>L1~LN：N级缓存
+<ul>
+<li>数字越小离我越近，查的越快。存储越小，造价越高。</li>
+<li>数字越大离我越远，查的越慢。存储越大，造价越低。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="一级缓存">一级缓存</h4>
+<ul>
+<li>作用域：一级缓存也称为会话（SqlSession）级缓存，它的作用域是单个 SqlSession。在同一个 SqlSession 中，执行相同的 SQL 查询时，MyBatis 会优先从一级缓存中获取数据，而不是再次查询数据库。</li>
+<li>原理：当一个 SqlSession 执行查询操作时，MyBatis 会将查询结果存储在该 SqlSession 的缓存中。如果后续再次执行相同的查询（相同的 SQL 语句和参数），MyBatis 会直接从缓存中返回结果，而不会再次访问数据库。</li>
+<li>失效情况：当 SqlSession 执行插入、更新、删除操作，或者调用 SqlSession 的 clearCache() 方法时，一级缓存会被清空。</li>
+</ul>
+<p>示例代码:</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">try (SqlSession session <span class="operator">=</span> sqlSessionFactory.openSession()) &#123;</span><br><span class="line">    UserMapper mapper <span class="operator">=</span> session.getMapper(UserMapper.class)<span class="comment">;</span></span><br><span class="line">    // 第一次查询</span><br><span class="line">    User user1 <span class="operator">=</span> mapper.getUserById(<span class="number">1</span>)<span class="comment">; </span></span><br><span class="line">    // 第二次查询，使用缓存</span><br><span class="line">    User user2 <span class="operator">=</span> mapper.getUserById(<span class="number">1</span>)<span class="comment">; </span></span><br><span class="line">    System.out.println(user1 <span class="operator">=</span><span class="operator">=</span> user2)<span class="comment">; // 输出 true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="二级缓存">二级缓存</h4>
+<ul>
+<li>作用域：二级缓存也称为命名空间（Mapper）级缓存，它的作用域是同一个命名空间（Mapper 接口）。不同的 SqlSession 可以共享二级缓存中的数据，只要它们操作的是同一个 Mapper 接口。</li>
+<li>原理：MyBatis 的二级缓存是基于 Mapper 命名空间的，每个 Mapper 都有自己独立的二级缓存。当一个 SqlSession 执行查询操作并将结果存储在二级缓存中后，其他 SqlSession 执行相同的查询时，可以直接从二级缓存中获取数据。</li>
+<li>开启方式：要开启二级缓存，需要在 Mapper XML 文件中添加 标签，或者在 Mapper 接口上添加 @CacheNamespace 注解。</li>
+<li>失效情况：当 Mapper 对应的 SqlSession 执行插入、更新、删除操作时，该 Mapper 的二级缓存会被清空。</li>
+</ul>
+<p>示例代码</p>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">mapper</span> <span class="attr">namespace</span>=<span class="string">&quot;com.example.mapper.UserMapper&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="comment">&lt;!-- 开启二级缓存 --&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">cache</span> /&gt;</span> </span></span><br><span class="line"><span class="language-xml">    </span><span class="language-xml"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;getUserById&quot;</span> <span class="attr">resultType</span>=<span class="string">&quot;com.example.entity.User&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        SELECT * FROM user WHERE id = #</span><span class="language-xquery"><span class="built_in">&#123;id</span>&#125;</span><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><span class="language-xml"></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">mapper</span>&gt;</span></span></span><br><span class="line"><span class="keyword">try</span> (SqlSession session1 = sqlSessionFactory.openSession();</span><br><span class="line">     SqlSession session2 = sqlSessionFactory.openSession()) &#123;</span><br><span class="line">    UserMapper mapper1 = session1.getMapper(UserMapper.class);</span><br><span class="line">    UserMapper mapper2 = session2.getMapper(UserMapper.class);</span><br><span class="line">    // 第一次查询，存入二级缓存</span><br><span class="line">    User user1 = mapper1.getUserById(<span class="number">1</span>); </span><br><span class="line">    // 第二次查询，从二级缓存获取</span><br><span class="line">    User user2 = mapper2.getUserById(<span class="number">1</span>); </span><br><span class="line">    System.out.println(user1 == user2); // 输出<span class="built_in"> false</span>，但数据内容相同</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://www.legendkiller.xyz/wp-content/uploads/2025/09/image-6-822x1024.png" alt="img"></p>
+<p><img src="https://www.legendkiller.xyz/wp-content/uploads/2025/09/image-7-1024x533.png" alt="img"></p>
+<h3 id="2-插件机制">2.插件机制</h3>
+<ul>
+<li>MyBatis 底层使用 拦截器机制提供插件功能，方便用户在SQL执行前后进行拦截增强。</li>
+</ul>
+<p><img src="https://www.legendkiller.xyz/wp-content/uploads/2025/09/image-8.png" alt="img"></p>
+<ul>
+<li>拦截器：Interceptor</li>
+<li>拦截器可以拦截 四大对象 的执行
+<ul>
+<li>ParameterHandler（参数处理器）：处理SQL的参数对象</li>
+<li>ResultSetHandler（结果集处理器）：处理SQL的返回结果集</li>
+<li>StatementHandler（语句处理器）：数据库的处理对象，用于执行SQL语句</li>
+<li>Executor（执行器）：MyBatis的执行器，用于执行增删改查操作</li>
+</ul>
+</li>
+</ul>
+<h2 id="10-PageHelper">10.PageHelper</h2>
+<ul>
+<li>PageHelper 是可以用在 MyBatis 中的一个强大的分页插件</li>
+<li>分页插件就是利用MyBatis 插件机制，在底层编写了 分页Interceptor，每次SQL查询之前会自动拼装分页数据
+<ul>
+<li>select * from emp limit 0,10</li>
+<li>分页重点：
+<ul>
+<li>前端 第1页： limit 0,10</li>
+<li>前端 第2页： limit 10,10</li>
+<li>前端 第3页： limit 20,10</li>
+<li>前端 第N页：limit startIndex,pageSize</li>
+<li>计算规则： pageNum = 1， pageSize = 10</li>
+<li>startIndex = (pageNum - 1)*pageSize</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>官网:<a target="_blank" rel="noopener" href="https://pagehelper.github.io">https://pagehelper.github.io</a></p>
+<h3 id="使用">使用</h3>
+<p>在 pom.xml 中添加如下依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.pagehelper<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pagehelper<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>最新版本<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>配置拦截器插件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@MapperScan(&quot;com.atguigu.mybatis.mapper&quot;)</span> <span class="comment">//批量只扫描mapper</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyBatisConfig</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    PageInterceptor <span class="title function_">pageInterceptor</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="comment">//1、创建 分页插件 对象</span></span><br><span class="line">        <span class="type">PageInterceptor</span> <span class="variable">interceptor</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PageInterceptor</span>();</span><br><span class="line">        <span class="comment">//2、设置 参数</span></span><br><span class="line">        <span class="comment">//.......</span></span><br><span class="line">        <span class="type">Properties</span> <span class="variable">properties</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Properties</span>();</span><br><span class="line">        properties.setProperty(<span class="string">&quot;reasonable&quot;</span>, <span class="string">&quot;true&quot;</span>);</span><br><span class="line"></span><br><span class="line">        interceptor.setProperties(properties);</span><br><span class="line">        <span class="keyword">return</span> interceptor;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>测试类</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">@SpringBootTest</span><br><span class="line"><span class="built_in">public</span> <span class="keyword">class</span> PageTest &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    EmpService empService;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    <span class="type">void</span> test02()&#123;</span><br><span class="line"></span><br><span class="line">        //后端收到前端传来的页码</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        //响应前端需要的数据：</span><br><span class="line">        //<span class="number">1</span>、总页码、总记录数</span><br><span class="line">        //<span class="number">2</span>、当前页码</span><br><span class="line">        //<span class="number">3</span>、本页数据</span><br><span class="line">        PageHelper.startPage(<span class="number">3</span>,<span class="number">5</span>);</span><br><span class="line">        // 紧跟着 startPage 之后 的方法就会执行的 <span class="keyword">SQL</span> 分页查询</span><br><span class="line">        List&lt;Emp&gt; <span class="keyword">all</span> = empService.getAll();</span><br><span class="line">        <span class="keyword">System</span>.<span class="keyword">out</span>.println(&quot;============&quot;);</span><br><span class="line"></span><br><span class="line">        //以后给前端返回它</span><br><span class="line">        PageInfo&lt;Emp&gt; <span class="keyword">info</span> = <span class="built_in">new</span> PageInfo&lt;&gt;(<span class="keyword">all</span>);</span><br><span class="line"></span><br><span class="line">        //当前第几页</span><br><span class="line">        <span class="keyword">System</span>.<span class="keyword">out</span>.println(&quot;当前页码：&quot;+<span class="keyword">info</span>.getPageNum());</span><br><span class="line">        //总页码</span><br><span class="line">        <span class="keyword">System</span>.<span class="keyword">out</span>.println(&quot;总页码：&quot;+<span class="keyword">info</span>.getPages());</span><br><span class="line">        //总记录</span><br><span class="line">        <span class="keyword">System</span>.<span class="keyword">out</span>.println(&quot;总记录数：&quot;+<span class="keyword">info</span>.getTotal());</span><br><span class="line">        //有没有下一页</span><br><span class="line">        <span class="keyword">System</span>.<span class="keyword">out</span>.println(&quot;有没有下一页：&quot;+<span class="keyword">info</span>.isHasNextPage());</span><br><span class="line">        //有没有上一页</span><br><span class="line">        <span class="keyword">System</span>.<span class="keyword">out</span>.println(&quot;有没有上一页：&quot;+<span class="keyword">info</span>.isHasPreviousPage());</span><br><span class="line">        //本页数据</span><br><span class="line">        <span class="keyword">System</span>.<span class="keyword">out</span>.println(&quot;本页数据：&quot;+<span class="keyword">info</span>.getList());</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    <span class="type">void</span> test01()&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 原理：拦截器；</span></span><br><span class="line"><span class="comment">         * 原业务底层：select * from emp;</span></span><br><span class="line"><span class="comment">         * 拦截做两件事：</span></span><br><span class="line"><span class="comment">         * 1）、统计这个表的总数量</span></span><br><span class="line"><span class="comment">         * 2）、给原业务底层SQL 动态拼接上 limit 0,5;</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         * ThreadLocal： 同一个线程共享数据</span></span><br><span class="line"><span class="comment">         *    1、第一个查询从 ThreadLocal 中获取到共享数据，执行分页</span></span><br><span class="line"><span class="comment">         *    2、第一个执行完会把 ThreadLocal 分页数据删除</span></span><br><span class="line"><span class="comment">         *    3、以后的查询，从 ThreadLocal 中拿不到分页数据，就不会分页</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        PageHelper.startPage(<span class="number">3</span>,<span class="number">5</span>);</span><br><span class="line">        // 紧跟着 startPage 之后 的方法就会执行的 <span class="keyword">SQL</span> 分页查询</span><br><span class="line">        List&lt;Emp&gt; <span class="keyword">all</span> = empService.getAll();</span><br><span class="line">        <span class="keyword">for</span> (Emp emp : <span class="keyword">all</span>) &#123;</span><br><span class="line">            <span class="keyword">System</span>.<span class="keyword">out</span>.println(emp);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">System</span>.<span class="keyword">out</span>.println(&quot;===============&quot;);</span><br><span class="line">        List&lt;Emp&gt; all1 = empService.getAll();</span><br><span class="line">        <span class="keyword">System</span>.<span class="keyword">out</span>.println(all1.size());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">    @GetMapping(&quot;/emp/page&quot;)</span><br><span class="line">    <span class="built_in">public</span> PageInfo getPage(@RequestParam(<span class="keyword">value</span> = &quot;pageNum&quot;,defaultValue = &quot;1&quot;) <span class="type">Integer</span> pageNum)&#123;</span><br><span class="line">        PageHelper.startPage(pageNum, <span class="number">5</span>);</span><br><span class="line">        List&lt;Emp&gt; <span class="keyword">all</span> = empService.getAll();</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">new</span> PageInfo&lt;&gt;(<span class="keyword">all</span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="MyBatis篇完结">MyBatis篇完结</h2>
+</article><div class="post-copyright"><div class="post-copyright__title"><span class="post-copyright-info"><h>SSM-MyBatis篇</h></span></div><div class="post-copyright__type"><span class="post-copyright-info"><a href="https://itgeqian.github.io/posts/47.html">https://itgeqian.github.io/posts/47.html</a></span></div><div class="post-copyright-m"><div class="post-copyright-m-info"><div class="post-copyright-a"><h>作者</h><div class="post-copyright-cc-info"><h>geqian's Blog🍭</h></div></div><div class="post-copyright-c"><h>发布于</h><div class="post-copyright-cc-info"><h>2025-08-29</h></div></div><div class="post-copyright-u"><h>更新于</h><div class="post-copyright-cc-info"><h>2025-08-30</h></div></div><div class="post-copyright-c"><h>许可协议</h><div class="post-copyright-cc-info"><a class="icon" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a><a rel="noopener" target="_blank" title="CC BY-NC-SA 4.0" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></div></div></div></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/MyBatis/"><div class="tags-punctuation"><svg class="faa-tada icon" style="height:1.1em;width:1.1em;fill:currentColor;position:relative;top:2px;margin-right:3px" aria-hidden="true"><use xlink:href="#icon-sekuaibiaoqian"></use></svg></div>MyBatis</a></div></div><link rel="stylesheet" href="/css/coin.css" media="defer" onload="this.media='all'"/><div class="post-reward"><button class="tip-button reward-button"><span class="tip-button__text">投喂作者</span><div class="coin-wrapper"><div class="coin"><div class="coin__middle"></div><div class="coin__back"></div><div class="coin__front"></div></div></div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="https://java-geqian.oss-cn-beijing.aliyuncs.com/%E5%BE%AE%E4%BF%A1PAY.jpg" target="_blank"><img class="post-qr-code-img" src="https://java-geqian.oss-cn-beijing.aliyuncs.com/%E5%BE%AE%E4%BF%A1PAY.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://java-geqian.oss-cn-beijing.aliyuncs.com/%E6%94%AF%E4%BB%98%E5%AE%9DPAY.jpg" target="_blank"><img class="post-qr-code-img" src="https://java-geqian.oss-cn-beijing.aliyuncs.com/%E6%94%AF%E4%BB%98%E5%AE%9DPAY.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></button></div><audio id="coinAudio" src="https://npm.elemecdn.com/akilar-candyassets@1.0.36/audio/aowu.m4a"></audio><script defer="defer" src="/js/coin.js"></script><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/48.html"><img class="prev-cover" src="https://u7imgblog.oss-cn-hangzhou.aliyuncs.com/blogbackground/wallhaven-o59q2m.webp" onerror="onerror=null;src='/assets/r2.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">SSM-SpringBoot篇</div></div></a></div><div class="next-post pull-right"><a href="/posts/46.html"><img class="next-cover" src="https://u7imgblog.oss-cn-hangzhou.aliyuncs.com/blogbackground/wallhaven-o59q2m.webp" onerror="onerror=null;src='/assets/r2.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">SSM-SpringMVC篇</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><svg class="meta_icon" style="width:22px;height:22px;position:relative;top:5px"><use xlink:href="#icon-mulu1"></use></svg><span style="font-weight:bold">目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89-MyBatis%E7%AF%87"><span class="toc-text">三.MyBatis篇</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%AE%80%E4%BB%8B"><span class="toc-text">1.简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%88%9D%E6%AD%A5%E4%BD%BF%E7%94%A8"><span class="toc-text">2.初步使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AF%BC%E5%85%A5%E4%BE%9D%E8%B5%96"><span class="toc-text">1.导入依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%88%9B%E5%BB%BADo%E5%AF%B9%E8%B1%A1"><span class="toc-text">2.创建Do对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Dao%E5%B1%82%E5%88%9B%E5%BB%BAMapper%E6%8E%A5%E5%8F%A3"><span class="toc-text">3.Dao层创建Mapper接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E7%94%9F%E6%88%90xml%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-text">4.生成xml配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E7%BC%96%E5%86%99sql"><span class="toc-text">5.编写sql</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E5%BC%80%E5%90%AF%E8%87%AA%E5%A2%9Eid"><span class="toc-text">6.开启自增id</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99%E8%BD%AC%E5%8C%96"><span class="toc-text">7.命名规则转化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%E7%BB%86%E8%8A%82"><span class="toc-text">8.细节</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%8F%82%E6%95%B0%E5%A4%84%E7%90%86"><span class="toc-text">3.参数处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%8D%A0%E4%BD%8D%E7%AC%A6-%E5%92%8C-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">1.占位符#{}和${}的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%8D%95%E5%8F%82%E6%95%B0%E5%8F%96%E5%80%BC"><span class="toc-text">2.单参数取值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%A4%9A%E5%8F%82%E6%95%B0%E5%8F%96%E5%80%BC"><span class="toc-text">3.多参数取值</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E8%BF%94%E5%9B%9E%E5%80%BC-%E7%BB%93%E6%9E%9C%E5%B0%81%E8%A3%85"><span class="toc-text">4.返回值-结果封装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%B8%80%E8%88%AC%E8%BF%94%E5%9B%9E%EF%BC%9A"><span class="toc-text">1.一般返回：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%BF%94%E5%9B%9Emap%EF%BC%9A"><span class="toc-text">2.返回map：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BB%93%E6%9E%9C%E9%9B%86-ResultMap"><span class="toc-text">3.自定义结果集- ResultMap</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%85%B3%E8%81%94%E6%9F%A5%E8%AF%A2"><span class="toc-text">4.关联查询</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E5%AF%B9%E4%B8%80%E5%85%B3%E7%B3%BB%E5%B0%81%E8%A3%85"><span class="toc-text">一对一关系封装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E5%AF%B9%E5%A4%9A%E5%85%B3%E7%B3%BB%E5%B0%81%E8%A3%85"><span class="toc-text">一对多关系封装</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%88%86%E6%AD%A5%E6%9F%A5%E8%AF%A2"><span class="toc-text">5.分步查询</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%89%8B%E5%8A%A8%E5%88%86%E6%AD%A5%E6%9F%A5%E8%AF%A2"><span class="toc-text">1.手动分步查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%87%AA%E5%8A%A8%E5%88%86%E6%AD%A5%E6%9F%A5%E8%AF%A2"><span class="toc-text">2.自动分步查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E8%B6%85%E7%BA%A7%E5%88%86%E6%AD%A5%E9%97%AE%E9%A2%98"><span class="toc-text">3.超级分步问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E5%BB%B6%E8%BF%9F%E5%8A%A0%E8%BD%BD"><span class="toc-text">6.延迟加载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E5%8A%A8%E6%80%81sql"><span class="toc-text">7.动态sql</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%AE%80%E4%BB%8B-2"><span class="toc-text">1.简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%A0%87%E7%AD%BE"><span class="toc-text">2.标签</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#if%E3%80%81where-%E6%A0%87%E7%AD%BE"><span class="toc-text">if、where 标签</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#set%E6%A0%87%E7%AD%BE"><span class="toc-text">set标签</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#trim%E6%A0%87%E7%AD%BE"><span class="toc-text">trim标签</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#choose-when-otherwise%E6%A0%87%E7%AD%BE"><span class="toc-text">choose&#x2F;when&#x2F;otherwise标签</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#foreach%E6%A0%87%E7%AD%BE"><span class="toc-text">foreach标签</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sql%E7%89%87%E6%AE%B5"><span class="toc-text">sql片段</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6"><span class="toc-text">8.特殊字符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-MyBais-%E6%89%A9%E5%B1%95"><span class="toc-text">9.MyBais 扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6"><span class="toc-text">1.缓存机制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E7%BA%A7%E7%BC%93%E5%AD%98"><span class="toc-text">一级缓存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98"><span class="toc-text">二级缓存</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%8F%92%E4%BB%B6%E6%9C%BA%E5%88%B6"><span class="toc-text">2.插件机制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-PageHelper"><span class="toc-text">10.PageHelper</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-text">使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MyBatis%E7%AF%87%E5%AE%8C%E7%BB%93"><span class="toc-text">MyBatis篇完结</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background-color: transparent;"><div id="footer-wrap"><div id="ft"><div class="ft-item-1"><div class="t-top"><div class="t-t-l"><p class="ft-t t-l-t">格言🧬</p><div class="bg-ad"><div>再看看那个光点，它就在这里，这是家园，这是我们 —— 你所爱的每一个人，你认识的一个人，你听说过的每一个人，曾经有过的每一个人，都在它上面度过他们的一生✨</div><div class="btn-xz-box"><a class="btn-xz" target="_blank" rel="noopener" href="https://stellarium.org/">点击开启星辰之旅</a></div></div></div><div class="t-t-r"><p class="ft-t t-l-t">猜你想看💡</p><ul class="ft-links"><li><a href="/comments/">留点什么</a><a href="/archives/">文章归档</a></li><li><a href="/categories/">文章分类</a><a href="/tags/">文章标签</a></li><li><a href="/box/Gallery/">我的画廊</a><a href="/personal/bb/">我的唠叨</a></li><li><a href="/site/time/">建设进程</a><a href="/site/census/">网站统计</a></li></ul></div></div></div><div class="ft-item-2"><p class="ft-t">推荐友链⌛</p><div class="ft-img-group"><div class="img-group-item"></div></div></div></div><div class="copyright"><span><b>&copy;2022-2025</b></span><span><b>&nbsp;&nbsp;By geqian's Blog🍭</b></span></div><div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://icp.gov.moe/?keyword=20230913" style="margin-inline:5px" title="本站已加入萌ICP豪华套餐，萌ICP备20230913号"><img src="https://u7imgblog.oss-cn-hangzhou.aliyuncs.com/blogbackground/20230913.svg" alt=""/></a></p></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><a class="icon-V hidden" onclick="switchNightMode()" title="浅色和深色模式转换"><svg width="25" height="25" viewBox="0 0 1024 1024"><use id="modeicon" xlink:href="#icon-moon"></use></svg></a><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button><button class="share" type="button" title="右键模式" onclick="changeMouseMode()"><i class="fas fa-mouse"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog right_side"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button class="share" type="button" title="分享链接" onclick="share()"><i class="fas fa-share-nodes"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i><span id="percent">0<span>%</span></span></button><button id="go-down" type="button" title="直达底部" onclick="btf.scrollToDest(document.body.scrollHeight, 500)"><i class="fas fa-arrow-down"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div class="js-pjax" id="rightMenu"><div class="rightMenu-group rightMenu-small"><a class="rightMenu-item" href="javascript:window.history.back();"><i class="fa fa-arrow-left"></i></a><a class="rightMenu-item" href="javascript:window.history.forward();"><i class="fa fa-arrow-right"></i></a><a class="rightMenu-item" href="javascript:window.location.reload();"><i class="fa fa-refresh"></i></a><a class="rightMenu-item" href="javascript:rmf.scrollToTop();"><i class="fa fa-arrow-up"></i></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-text"><a class="rightMenu-item" href="javascript:rmf.copySelect();"><i class="fa fa-copy"></i><span>复制</span></a><a class="rightMenu-item" href="javascript:window.open(&quot;https://www.baidu.com/s?wd=&quot;+window.getSelection().toString());window.location.reload();"><i class="fa fa-search"></i><span>百度搜索</span></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-too"><a class="rightMenu-item" href="javascript:window.open(window.getSelection().toString());window.location.reload();"><i class="fa fa-link"></i><span>转到链接</span></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-paste"><a class="rightMenu-item" href="javascript:rmf.paste()"><i class="fa fa-copy"></i><span>粘贴</span></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-post"><a class="rightMenu-item" href="#post-comment"><i class="fas fa-comment"></i><span>空降评论</span></a><a class="rightMenu-item" href="javascript:rmf.copyWordsLink()"><i class="fa fa-link"></i><span>复制本文地址</span></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-to"><a class="rightMenu-item" href="javascript:rmf.openWithNewTab()"><i class="fa fa-window-restore"></i><span>新窗口打开</span></a><a class="rightMenu-item" id="menu-too" href="javascript:rmf.open()"><i class="fa fa-link"></i><span>转到链接</span></a><a class="rightMenu-item" href="javascript:rmf.copyLink()"><i class="fa fa-copy"></i><span>复制链接</span></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-img"><a class="rightMenu-item" href="javascript:rmf.saveAs()"><i class="fa fa-download"></i><span>保存图片</span></a><a class="rightMenu-item" href="javascript:rmf.openWithNewTab()"><i class="fa fa-window-restore"></i><span>在新窗口打开</span></a><a class="rightMenu-item" href="javascript:rmf.copyLink()"><i class="fa fa-copy"></i><span>复制图片链接</span></a></div><div class="rightMenu-group rightMenu-line"><a class="rightMenu-item" href="javascript:randomPost()"><i class="fa fa-paper-plane"></i><span>随便逛逛</span></a><a class="rightMenu-item" href="javascript:switchNightMode();"><i class="fa fa-moon"></i><span>昼夜切换</span></a><a class="rightMenu-item" href="/personal/about/"><i class="fa fa-info-circle"></i><span>关于博客</span></a><a class="rightMenu-item" href="javascript:toggleWinbox();"><i class="fas fa-cog"></i><span>美化设置</span></a><a class="rightMenu-item" href="javascript:rmf.fullScreen();"><i class="fas fa-expand"></i><span>切换全屏</span></a><a class="rightMenu-item" href="javascript:window.print();"><i class="fa-solid fa-print"></i><span>打印页面</span></a></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.staticfile.org/fancyapps-ui/4.0.31/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><script async="async">var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())
+setTimeout(function(){preloader.endLoading();}, 5000);
+document.getElementById('loading-box').addEventListener('click',()=> {preloader.endLoading()})</script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.2
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container:not\([display]\)').forEach(node => {
+            const target = node.parentNode
+            if (target.nodeName.toLowerCase() === 'li') {
+              target.parentNode.classList.add('has-jax')
+            } else {
+              target.classList.add('has-jax')
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script><script>(()=>{
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: '',
+      region: '',
+      onCommentLoaded: function () {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: '',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(function (res) {
+      countELement.innerText = res[0].count
+    }).catch(function (err) {
+      console.error(err);
+    });
+  }
+
+  const runFn = () => {
+    init()
+    GLOBAL_CONFIG_SITE.isPost && getCount()
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') {
+      setTimeout(runFn,0)
+      return
+    } 
+    getScript('https://cdn.staticfile.org/twikoo/1.6.8/twikoo.all.min.js').then(runFn)
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = () => {
+      loadTwikoo()
+    }
+  }
+})()</script></div><script src="https://cdn.staticfile.org/jquery/3.6.3/jquery.min.js"></script><script async src="https://cdn1.tianli0.top/npm/vue@2.6.14/dist/vue.min.js"></script><script async src="https://cdn1.tianli0.top/npm/element-ui@2.15.6/lib/index.js"></script><script async src="https://cdn.bootcdn.net/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script><script defer type="text/javascript" src="https://cdn1.tianli0.top/npm/sweetalert2@8.19.0/dist/sweetalert2.all.js"></script><script async src="//npm.elemecdn.com/pace-js@1.2.4/pace.min.js"></script><script defer src="https://cdn1.tianli0.top/gh/nextapps-de/winbox/dist/winbox.bundle.min.js"></script><script async src="//at.alicdn.com/t/c/font_3586335_hsivh70x0fm.js"></script><script async src="//at.alicdn.com/t/c/font_3636804_gr02jmjr3y9.js"></script><script async src="//at.alicdn.com/t/c/font_3612150_kfv55xn3u2g.js"></script><script async src="https://cdn.wpon.cn/2022-sucai/Gold-ingot.js"></script><canvas id="universe"></canvas><canvas id="snow"></canvas><script defer src="/js/fomal.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.js"></script><script src="https://cdn1.tianli0.top/npm/js-heo@1.0.12/metingjs/Meting.min.js"></script><script src="https://lib.baomitu.com/pjax/0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show","#web_bg",".js-pjax","#bibi","body > title","#app","#tag-echarts","#posts-echart","#categories-echarts"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="https://itgeqian.github.io/categories/学习笔记/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍡 geqianの学习笔记 (11)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://itgeqian.github.io/categories/杂项/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍼 geqianの杂项 (3)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://itgeqian.github.io/categories/项目/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍉 geqianの项目笔记 (6)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://itgeqian.github.io/categories/AI/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍨 geqianのAI大模型 (6)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://itgeqian.github.io/categories/算法/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍟 geqianの算法学习笔记 (3)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://itgeqian.github.io/categories/面试/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍥 geqianの面试 (4)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://itgeqian.github.io/categories/JUC/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🌏 geqianのJUC (4)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://itgeqian.github.io/categories/JVM/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍜 geqianのJUC (5)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://itgeqian.github.io/categories/MQ/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">📱 geqianの消息队列 (2)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://itgeqian.github.io/categories/学习笔记/前端/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🏛️ geqianの前端工程 (1)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://itgeqian.github.io/categories/前端/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🏛️ geqianの前端工程 (1)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://itgeqian.github.io/categories/mybatis-mybatis-plus/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🎨 geqianのmybatis系列 (1)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://itgeqian.github.io/categories/微服务/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🗺️ geqianのSpringCloud系列 (3)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://itgeqian.github.io/categories/SSM/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">📖 geqianのSSM+SpringBoot系列 (7)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://itgeqian.github.io/categories/ruoyi/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">📞 geqianの若依框架 (2)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://itgeqian.github.io/categories/mysql/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">❓ geqianのmysql (3)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://itgeqian.github.io/categories/Redis/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">💖 geqianのRedis (3)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item" style="visibility: hidden"></div><a class="magnet_link_more"  href="https://itgeqian.github.io/categories/" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(33.333333333333336% - 5px);background: #e9e9e9;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: var(--text-bg-hover)}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;posts/1.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="https://u7imgblog.oss-cn-hangzhou.aliyuncs.com/blogbackground/wallhaven-o59q2m.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-05-20</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;posts/1.html&quot;);" href="javascript:void(0);" alt="">实验三 汽车租赁系统的UML设计建模 （完结）</a><div class="blog-slider__text">关于汽车租赁系统的UML设计建模</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;posts/1.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;posts/2.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="https://u7imgblog.oss-cn-hangzhou.aliyuncs.com/blogbackground/wallhaven-o59q2m.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-10-06</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;posts/2.html&quot;);" href="javascript:void(0);" alt="">GQ Video项目部署</a><div class="blog-slider__text">微服务项目GQ Video项目部署</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;posts/2.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper@1.0.12/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper@1.0.12/lib/swiper_init.js"></script><script data-pjax src="https://npm.elemecdn.com/hexo-filter-gitcalendar/lib/gitcalendar.js"></script><script data-pjax>
+  function gitcalendar_injector_config(){
+      var parent_div_git = document.getElementById('gitZone');
+      var item_html = '<div class="recent-post-item" id="gitcalendarBar" style="width:100%;height:auto;padding:10px;"><style>#git_container{min-height: 320px}@media screen and (max-width:650px) {#git_container{min-height: 0px}}</style><div id="git_loading" style="width:10%;height:100%;margin:0 auto;display: block;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animatetransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animatetransform></path></svg><style>#git_container{display: none;}</style></div><div id="git_container"></div></div>';
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      console.log('已挂载gitcalendar')
+      }
+
+    if( document.getElementById('gitZone') && (location.pathname ==='/site/census/'|| '/site/census/' ==='all')){
+        gitcalendar_injector_config()
+        GitCalendarInit("/api?null",['#d9e0df', '#c6e0dc', '#a8dcd4', '#9adcd2', '#89ded1', '#77e0d0', '#5fdecb', '#47dcc6', '#39dcc3', '#1fdabe', '#00dab9'],'null')
+    }
+  </script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '2s');
+    arr[i].setAttribute('data-wow-delay', '200ms');
+    arr[i].setAttribute('data-wow-offset', '30');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '2s');
+    arr[i].setAttribute('data-wow-delay', '200ms');
+    arr[i].setAttribute('data-wow-offset', '30');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script></div><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body></html>
