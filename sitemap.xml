@@ -92,7 +92,7 @@
   </url>
   
   <url>
-    <loc>https://itgeqian.github.io/life/movies/index.html</loc>
+    <loc>https://itgeqian.github.io/life/games/index.html</loc>
     
     <lastmod>2025-11-26</lastmod>
     
@@ -101,7 +101,7 @@
   </url>
   
   <url>
-    <loc>https://itgeqian.github.io/life/games/index.html</loc>
+    <loc>https://itgeqian.github.io/life/movies/index.html</loc>
     
     <lastmod>2025-11-26</lastmod>
     
@@ -173,15 +173,6 @@
   </url>
   
   <url>
-    <loc>https://itgeqian.github.io/posts/9.html</loc>
-    
-    <lastmod>2025-06-18</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://itgeqian.github.io/posts/8.html</loc>
     
     <lastmod>2025-06-18</lastmod>
@@ -191,7 +182,16 @@
   </url>
   
   <url>
-    <loc>https://itgeqian.github.io/posts/3.html</loc>
+    <loc>https://itgeqian.github.io/posts/9.html</loc>
+    
+    <lastmod>2025-06-18</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://itgeqian.github.io/posts/4.html</loc>
     
     <lastmod>2025-05-27</lastmod>
     
@@ -200,7 +200,7 @@
   </url>
   
   <url>
-    <loc>https://itgeqian.github.io/posts/4.html</loc>
+    <loc>https://itgeqian.github.io/posts/3.html</loc>
     
     <lastmod>2025-05-27</lastmod>
     
@@ -254,14 +254,14 @@
 
   
   <url>
-    <loc>https://itgeqian.github.io/tags/Redis/</loc>
+    <loc>https://itgeqian.github.io/tags/JVM/</loc>
     <lastmod>2025-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://itgeqian.github.io/tags/JavaWeb/</loc>
+    <loc>https://itgeqian.github.io/tags/Redis/</loc>
     <lastmod>2025-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -275,14 +275,7 @@
   </url>
   
   <url>
-    <loc>https://itgeqian.github.io/tags/JVM/</loc>
-    <lastmod>2025-11-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://itgeqian.github.io/tags/%E8%8B%B1%E8%AF%AD%E5%85%AD%E7%BA%A7/</loc>
+    <loc>https://itgeqian.github.io/tags/JavaWeb/</loc>
     <lastmod>2025-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -296,7 +289,7 @@
   </url>
   
   <url>
-    <loc>https://itgeqian.github.io/tags/%E7%9F%AD%E6%96%87/</loc>
+    <loc>https://itgeqian.github.io/tags/%E8%8B%B1%E8%AF%AD%E5%85%AD%E7%BA%A7/</loc>
     <lastmod>2025-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -304,6 +297,13 @@
   
   <url>
     <loc>https://itgeqian.github.io/tags/UML%E5%BB%BA%E6%A8%A1/</loc>
+    <lastmod>2025-11-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://itgeqian.github.io/tags/%E7%9F%AD%E6%96%87/</loc>
     <lastmod>2025-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -326,21 +326,14 @@
 
   
   <url>
+    <loc>https://itgeqian.github.io/categories/JVM/</loc>
+    <lastmod>2025-11-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://itgeqian.github.io/categories/Redis/</loc>
-    <lastmod>2025-11-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://itgeqian.github.io/categories/SSM/</loc>
-    <lastmod>2025-11-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://itgeqian.github.io/categories/SSM/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
     <lastmod>2025-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -354,14 +347,28 @@
   </url>
   
   <url>
-    <loc>https://itgeqian.github.io/categories/JVM/</loc>
+    <loc>https://itgeqian.github.io/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
     <lastmod>2025-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://itgeqian.github.io/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
+    <loc>https://itgeqian.github.io/categories/SSM/</loc>
+    <lastmod>2025-11-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://itgeqian.github.io/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/SSM/</loc>
+    <lastmod>2025-11-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://itgeqian.github.io/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%89%8D%E7%AB%AF/</loc>
     <lastmod>2025-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -376,13 +383,6 @@
   
   <url>
     <loc>https://itgeqian.github.io/categories/%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3/</loc>
-    <lastmod>2025-11-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://itgeqian.github.io/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%89%8D%E7%AB%AF/</loc>
     <lastmod>2025-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
